@@ -117,6 +117,9 @@ struct SettingsBackupPreferences: Codable {
     var systemWideDefaultKeyboardId: String?
     var codexTerminalInputSourceId: String?
     var cursorTerminalInputSourceId: String?
+    var antigravityTerminalInputSourceId: String?
+    var opencodeTerminalInputSourceId: String?
+    var vscodeTerminalInputSourceId: String?
     var browserAddressDefaultKeyboardId: String?
     var isEnableURLSwitchForSafari: Bool?
     var isEnableURLSwitchForSafariTechnologyPreview: Bool?
@@ -173,6 +176,9 @@ struct SettingsBackupPreferences: Codable {
         systemWideDefaultKeyboardId = preferences.systemWideDefaultKeyboardId
         codexTerminalInputSourceId = preferences.codexTerminalInputSourceId
         cursorTerminalInputSourceId = preferences.cursorTerminalInputSourceId
+        antigravityTerminalInputSourceId = preferences.antigravityTerminalInputSourceId
+        opencodeTerminalInputSourceId = preferences.opencodeTerminalInputSourceId
+        vscodeTerminalInputSourceId = preferences.vscodeTerminalInputSourceId
         browserAddressDefaultKeyboardId = preferences.browserAddressDefaultKeyboardId
         isEnableURLSwitchForSafari = preferences.isEnableURLSwitchForSafari
         isEnableURLSwitchForSafariTechnologyPreview = preferences.isEnableURLSwitchForSafariTechnologyPreview
@@ -242,6 +248,11 @@ struct SettingsBackupPreferences: Codable {
         if let systemWideDefaultKeyboardId { preferences.systemWideDefaultKeyboardId = systemWideDefaultKeyboardId }
         if let codexTerminalInputSourceId { preferences.codexTerminalInputSourceId = codexTerminalInputSourceId }
         if let cursorTerminalInputSourceId { preferences.cursorTerminalInputSourceId = cursorTerminalInputSourceId }
+        if let antigravityTerminalInputSourceId {
+            preferences.antigravityTerminalInputSourceId = antigravityTerminalInputSourceId
+        }
+        if let opencodeTerminalInputSourceId { preferences.opencodeTerminalInputSourceId = opencodeTerminalInputSourceId }
+        if let vscodeTerminalInputSourceId { preferences.vscodeTerminalInputSourceId = vscodeTerminalInputSourceId }
         if let browserAddressDefaultKeyboardId {
             preferences.browserAddressDefaultKeyboardId = browserAddressDefaultKeyboardId
         }

@@ -383,6 +383,12 @@ struct ApplicationDetail: View {
                 $0.codexTerminalInputSourceId = selection.id
             case .cursor:
                 $0.cursorTerminalInputSourceId = selection.id
+            case .antigravity:
+                $0.antigravityTerminalInputSourceId = selection.id
+            case .opencode:
+                $0.opencodeTerminalInputSourceId = selection.id
+            case .vscode:
+                $0.vscodeTerminalInputSourceId = selection.id
             }
         }
     }

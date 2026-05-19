@@ -4,6 +4,9 @@ import AXSwift
 enum AppTerminalKind: String {
     case codex
     case cursor
+    case antigravity
+    case opencode
+    case vscode
 
     var bundleIdentifier: String {
         switch self {
@@ -11,6 +14,12 @@ enum AppTerminalKind: String {
             return "com.openai.codex"
         case .cursor:
             return "com.todesktop.230313mzl4w4u92"
+        case .antigravity:
+            return "com.google.antigravity"
+        case .opencode:
+            return "ai.opencode.desktop"
+        case .vscode:
+            return "com.microsoft.VSCode"
         }
     }
 
@@ -20,6 +29,12 @@ enum AppTerminalKind: String {
             return "codex_terminal"
         case .cursor:
             return "cursor_terminal"
+        case .antigravity:
+            return "antigravity_terminal"
+        case .opencode:
+            return "opencode_terminal"
+        case .vscode:
+            return "vscode_terminal"
         }
     }
 

@@ -257,6 +257,9 @@ struct Preferences {
         static let systemWideDefaultKeyboardId = "systemWideDefaultKeyboardId"
         static let codexTerminalInputSourceId = "codexTerminalInputSourceId"
         static let cursorTerminalInputSourceId = "cursorTerminalInputSourceId"
+        static let antigravityTerminalInputSourceId = "antigravityTerminalInputSourceId"
+        static let opencodeTerminalInputSourceId = "opencodeTerminalInputSourceId"
+        static let vscodeTerminalInputSourceId = "vscodeTerminalInputSourceId"
         static let isFunctionKeysEnabled = "isFunctionKeysEnabled"
 
         static let browserAddressDefaultKeyboardId = "browserAddressDefaultKeyboardId"
@@ -410,6 +413,15 @@ struct Preferences {
 
     @UserDefault(Preferences.Key.cursorTerminalInputSourceId)
     var cursorTerminalInputSourceId = ""
+
+    @UserDefault(Preferences.Key.antigravityTerminalInputSourceId)
+    var antigravityTerminalInputSourceId = ""
+
+    @UserDefault(Preferences.Key.opencodeTerminalInputSourceId)
+    var opencodeTerminalInputSourceId = ""
+
+    @UserDefault(Preferences.Key.vscodeTerminalInputSourceId)
+    var vscodeTerminalInputSourceId = ""
 
     // MARK: - Browser Rules
 
@@ -629,12 +641,30 @@ extension PreferencesVM {
         return InputSource.resolvePersistedIdentifier(preferences.cursorTerminalInputSourceId)
     }
 
+    var antigravityTerminalInputSource: InputSource? {
+        return InputSource.resolvePersistedIdentifier(preferences.antigravityTerminalInputSourceId)
+    }
+
+    var opencodeTerminalInputSource: InputSource? {
+        return InputSource.resolvePersistedIdentifier(preferences.opencodeTerminalInputSourceId)
+    }
+
+    var vscodeTerminalInputSource: InputSource? {
+        return InputSource.resolvePersistedIdentifier(preferences.vscodeTerminalInputSourceId)
+    }
+
     func terminalInputSource(for kind: AppTerminalKind) -> InputSource? {
         switch kind {
         case .codex:
             return codexTerminalInputSource
         case .cursor:
             return cursorTerminalInputSource
+        case .antigravity:
+            return antigravityTerminalInputSource
+        case .opencode:
+            return opencodeTerminalInputSource
+        case .vscode:
+            return vscodeTerminalInputSource
         }
     }
 }
