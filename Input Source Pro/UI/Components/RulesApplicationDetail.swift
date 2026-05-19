@@ -378,18 +378,7 @@ struct ApplicationDetail: View {
         let selection = items[index]
 
         preferencesVM.update {
-            switch kind {
-            case .codex:
-                $0.codexTerminalInputSourceId = selection.id
-            case .cursor:
-                $0.cursorTerminalInputSourceId = selection.id
-            case .antigravity:
-                $0.antigravityTerminalInputSourceId = selection.id
-            case .opencode:
-                $0.opencodeTerminalInputSourceId = selection.id
-            case .vscode:
-                $0.vscodeTerminalInputSourceId = selection.id
-            }
+            $0.setTerminalInputSourceId(selection.id, for: kind)
         }
     }
 

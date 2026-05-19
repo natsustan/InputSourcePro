@@ -633,38 +633,47 @@ extension PreferencesVM {
         return InputSource.resolvePersistedIdentifier(preferences.browserAddressDefaultKeyboardId)
     }
 
-    var codexTerminalInputSource: InputSource? {
-        return InputSource.resolvePersistedIdentifier(preferences.codexTerminalInputSourceId)
-    }
-
-    var cursorTerminalInputSource: InputSource? {
-        return InputSource.resolvePersistedIdentifier(preferences.cursorTerminalInputSourceId)
-    }
-
-    var antigravityTerminalInputSource: InputSource? {
-        return InputSource.resolvePersistedIdentifier(preferences.antigravityTerminalInputSourceId)
-    }
-
-    var opencodeTerminalInputSource: InputSource? {
-        return InputSource.resolvePersistedIdentifier(preferences.opencodeTerminalInputSourceId)
-    }
-
-    var vscodeTerminalInputSource: InputSource? {
-        return InputSource.resolvePersistedIdentifier(preferences.vscodeTerminalInputSourceId)
-    }
-
     func terminalInputSource(for kind: AppTerminalKind) -> InputSource? {
+        return InputSource.resolvePersistedIdentifier(preferences.terminalInputSourceId(for: kind))
+    }
+
+    func configuredTerminalKind(for bundleIdentifier: String?) -> AppTerminalKind? {
+        guard let kind = AppTerminalKind.from(bundleIdentifier: bundleIdentifier),
+              terminalInputSource(for: kind) != nil
+        else { return nil }
+
+        return kind
+    }
+}
+
+extension Preferences {
+    func terminalInputSourceId(for kind: AppTerminalKind) -> String {
         switch kind {
         case .codex:
-            return codexTerminalInputSource
+            return codexTerminalInputSourceId
         case .cursor:
-            return cursorTerminalInputSource
+            return cursorTerminalInputSourceId
         case .antigravity:
-            return antigravityTerminalInputSource
+            return antigravityTerminalInputSourceId
         case .opencode:
-            return opencodeTerminalInputSource
+            return opencodeTerminalInputSourceId
         case .vscode:
-            return vscodeTerminalInputSource
+            return vscodeTerminalInputSourceId
+        }
+    }
+
+    mutating func setTerminalInputSourceId(_ inputSourceId: String, for kind: AppTerminalKind) {
+        switch kind {
+        case .codex:
+            codexTerminalInputSourceId = inputSourceId
+        case .cursor:
+            cursorTerminalInputSourceId = inputSourceId
+        case .antigravity:
+            antigravityTerminalInputSourceId = inputSourceId
+        case .opencode:
+            opencodeTerminalInputSourceId = inputSourceId
+        case .vscode:
+            vscodeTerminalInputSourceId = inputSourceId
         }
     }
 }

@@ -117,10 +117,9 @@ extension AppKind {
         let application = app.getApplication(preferencesVM: preferencesVM)
         let focusedElement = app.focuedUIElement(application: application)
         let isFocusOnInputContainer = UIElement.isInputContainer(focusedElement)
-        let terminalKind = AppTerminalKind.from(bundleIdentifier: app.bundleIdentifier)
+        let terminalKind = preferencesVM.configuredTerminalKind(for: app.bundleIdentifier)
         let focusedTerminalKind: AppTerminalKind?
         if let terminalKind,
-           preferencesVM.terminalInputSource(for: terminalKind) != nil,
            AppTerminalDetector.isTerminalFocused(focusedElement: focusedElement)
         {
             focusedTerminalKind = terminalKind

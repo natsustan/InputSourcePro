@@ -62,10 +62,8 @@ extension ApplicationVM {
                 guard let preferencesVM = self?.preferencesVM
                 else { return Empty().eraseToAnyPublisher() }
 
-                let terminalKind = AppTerminalKind.from(bundleIdentifier: app.bundleIdentifier)
-                let shouldWatchAppTerminal = terminalKind != nil
-                    && preferencesVM.preferences.isEnhancedModeEnabled
-                    && terminalKind.flatMap { preferencesVM.terminalInputSource(for: $0) } != nil
+                let shouldWatchAppTerminal = preferencesVM.preferences.isEnhancedModeEnabled
+                    && preferencesVM.configuredTerminalKind(for: app.bundleIdentifier) != nil
 
                 guard NSApplication.isBrowser(app) || shouldWatchAppTerminal
                 else { return Just(.from(app, preferencesVM: preferencesVM)).eraseToAnyPublisher() }
