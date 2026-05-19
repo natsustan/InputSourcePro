@@ -116,6 +116,7 @@ struct SettingsBackupPreferences: Codable {
     var singleModifierGroupMapping: [String: ModifierCombo]?
     var systemWideDefaultKeyboardId: String?
     var codexTerminalInputSourceId: String?
+    var cursorTerminalInputSourceId: String?
     var browserAddressDefaultKeyboardId: String?
     var isEnableURLSwitchForSafari: Bool?
     var isEnableURLSwitchForSafariTechnologyPreview: Bool?
@@ -171,6 +172,7 @@ struct SettingsBackupPreferences: Codable {
         singleModifierGroupMapping = preferences.singleModifierGroupMapping
         systemWideDefaultKeyboardId = preferences.systemWideDefaultKeyboardId
         codexTerminalInputSourceId = preferences.codexTerminalInputSourceId
+        cursorTerminalInputSourceId = preferences.cursorTerminalInputSourceId
         browserAddressDefaultKeyboardId = preferences.browserAddressDefaultKeyboardId
         isEnableURLSwitchForSafari = preferences.isEnableURLSwitchForSafari
         isEnableURLSwitchForSafariTechnologyPreview = preferences.isEnableURLSwitchForSafariTechnologyPreview
@@ -239,6 +241,7 @@ struct SettingsBackupPreferences: Codable {
         if let singleModifierGroupMapping { preferences.singleModifierGroupMapping = singleModifierGroupMapping }
         if let systemWideDefaultKeyboardId { preferences.systemWideDefaultKeyboardId = systemWideDefaultKeyboardId }
         if let codexTerminalInputSourceId { preferences.codexTerminalInputSourceId = codexTerminalInputSourceId }
+        if let cursorTerminalInputSourceId { preferences.cursorTerminalInputSourceId = cursorTerminalInputSourceId }
         if let browserAddressDefaultKeyboardId {
             preferences.browserAddressDefaultKeyboardId = browserAddressDefaultKeyboardId
         }

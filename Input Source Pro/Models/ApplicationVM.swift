@@ -62,19 +62,20 @@ extension ApplicationVM {
                 guard let preferencesVM = self?.preferencesVM
                 else { return Empty().eraseToAnyPublisher() }
 
-                let shouldWatchCodexTerminal = app.bundleIdentifier == CodexTerminalDetector.bundleIdentifier
+                let terminalKind = AppTerminalKind.from(bundleIdentifier: app.bundleIdentifier)
+                let shouldWatchAppTerminal = terminalKind != nil
                     && preferencesVM.preferences.isEnhancedModeEnabled
-                    && preferencesVM.codexTerminalInputSource != nil
+                    && terminalKind.flatMap { preferencesVM.terminalInputSource(for: $0) } != nil
 
-                guard NSApplication.isBrowser(app) || shouldWatchCodexTerminal
+                guard NSApplication.isBrowser(app) || shouldWatchAppTerminal
                 else { return Just(.from(app, preferencesVM: preferencesVM)).eraseToAnyPublisher() }
 
-                if shouldWatchCodexTerminal {
+                if shouldWatchAppTerminal {
                     // Chromium/Electron only exposes the web content accessibility tree (where the
                     // xterm-helper-textarea lives) after `AXManualAccessibility` is set to true on
                     // the app's AX element. Without this, `focusedUIElement` returns kAXNoValue and
-                    // `CodexTerminalDetector` can never see the terminal markers, so we'd fall back
-                    // to the app's default input source instead of `codexTerminalInputSource`.
+                    // the terminal detector can never see the terminal markers, so we'd fall back
+                    // to the app's default input source instead of the terminal input source.
                     app.activateAccessibilities()
 
                     return Timer

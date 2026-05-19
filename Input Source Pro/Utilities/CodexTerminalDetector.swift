@@ -1,9 +1,37 @@
 import AppKit
 import AXSwift
 
-enum CodexTerminalDetector {
-    static let bundleIdentifier = "com.openai.codex"
+enum AppTerminalKind: String {
+    case codex
+    case cursor
 
+    var bundleIdentifier: String {
+        switch self {
+        case .codex:
+            return "com.openai.codex"
+        case .cursor:
+            return "com.todesktop.230313mzl4w4u92"
+        }
+    }
+
+    var appKindIdSuffix: String {
+        switch self {
+        case .codex:
+            return "codex_terminal"
+        case .cursor:
+            return "cursor_terminal"
+        }
+    }
+
+    static func from(bundleIdentifier: String?) -> AppTerminalKind? {
+        guard let bundleIdentifier else { return nil }
+        return allCases.first { $0.bundleIdentifier == bundleIdentifier }
+    }
+}
+
+extension AppTerminalKind: CaseIterable {}
+
+enum AppTerminalDetector {
     private static let maxAncestorDepth = 16
 
     // xterm.js prefixes every class on the helper textarea, its container, and
@@ -16,14 +44,8 @@ enum CodexTerminalDetector {
     // chat composer as well.
     private static let xtermClassPrefix = "xterm"
 
-    static func isTerminalFocused(
-        app: NSRunningApplication,
-        focusedElement: UIElement?
-    ) -> Bool {
-        guard app.bundleIdentifier == bundleIdentifier,
-              let focusedElement
-        else { return false }
-
+    static func isTerminalFocused(focusedElement: UIElement?) -> Bool {
+        guard let focusedElement else { return false }
         return hasXtermAncestor(focusedElement)
     }
 

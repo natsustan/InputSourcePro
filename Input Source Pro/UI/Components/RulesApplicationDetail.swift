@@ -33,8 +33,9 @@ struct ApplicationDetail: View {
             + functionKeyOptionItems
     }
 
-    var shouldShowCodexTerminalKeyboard: Bool {
-        selectedApp.count == 1 && selectedApp.first?.bundleId == CodexTerminalDetector.bundleIdentifier
+    var selectedTerminalKind: AppTerminalKind? {
+        guard selectedApp.count == 1 else { return nil }
+        return AppTerminalKind.from(bundleIdentifier: selectedApp.first?.bundleId)
     }
 
     var functionKeyDefaultItem: PickerItem {
@@ -74,10 +75,10 @@ struct ApplicationDetail: View {
             Divider()
                 .padding(.vertical, 4)
 
-            if shouldShowCodexTerminalKeyboard {
+            if let terminalKind = selectedTerminalKind {
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("Codex Terminal Input Source".i18n())
+                        Text("Terminal Input Source".i18n())
                             .fontWeight(.medium)
                         Spacer()
                         EnhancedModeRequiredBadge()
@@ -86,10 +87,10 @@ struct ApplicationDetail: View {
                     PopUpButtonPicker<PickerItem?>(
                         items: keyboardItems,
                         isItemEnabled: { $0?.id != "mixed" },
-                        isItemSelected: { $0 == selectedCodexTerminalKeyboard },
+                        isItemSelected: { $0 == selectedTerminalKeyboard },
                         getTitle: { $0?.title ?? "" },
                         getToolTip: { $0?.toolTip },
-                        onSelect: { handleCodexTerminalKeyboardSelect($0, items: keyboardItems) }
+                        onSelect: { handleTerminalKeyboardSelect($0, items: keyboardItems, kind: terminalKind) }
                     )
                     .disabled(!preferencesVM.preferences.isEnhancedModeEnabled)
                 }
@@ -373,11 +374,16 @@ struct ApplicationDetail: View {
         selectedApp.forEach { preferencesVM.setFunctionKeyMode($0, mode) }
     }
 
-    func handleCodexTerminalKeyboardSelect(_ index: Int, items: [PickerItem]) {
+    func handleTerminalKeyboardSelect(_ index: Int, items: [PickerItem], kind: AppTerminalKind) {
         let selection = items[index]
 
         preferencesVM.update {
-            $0.codexTerminalInputSourceId = selection.id
+            switch kind {
+            case .codex:
+                $0.codexTerminalInputSourceId = selection.id
+            case .cursor:
+                $0.cursorTerminalInputSourceId = selection.id
+            }
         }
     }
 
@@ -393,8 +399,9 @@ struct ApplicationDetail: View {
         )
     }
 
-    var selectedCodexTerminalKeyboard: PickerItem {
-        guard let inputSource = preferencesVM.codexTerminalInputSource
+    var selectedTerminalKeyboard: PickerItem {
+        guard let terminalKind = selectedTerminalKind,
+              let inputSource = preferencesVM.terminalInputSource(for: terminalKind)
         else { return .empty }
 
         return pickerItem(for: inputSource)

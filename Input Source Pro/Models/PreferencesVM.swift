@@ -256,6 +256,7 @@ struct Preferences {
 
         static let systemWideDefaultKeyboardId = "systemWideDefaultKeyboardId"
         static let codexTerminalInputSourceId = "codexTerminalInputSourceId"
+        static let cursorTerminalInputSourceId = "cursorTerminalInputSourceId"
         static let isFunctionKeysEnabled = "isFunctionKeysEnabled"
 
         static let browserAddressDefaultKeyboardId = "browserAddressDefaultKeyboardId"
@@ -406,6 +407,9 @@ struct Preferences {
 
     @UserDefault(Preferences.Key.codexTerminalInputSourceId)
     var codexTerminalInputSourceId = ""
+
+    @UserDefault(Preferences.Key.cursorTerminalInputSourceId)
+    var cursorTerminalInputSourceId = ""
 
     // MARK: - Browser Rules
 
@@ -619,6 +623,19 @@ extension PreferencesVM {
 
     var codexTerminalInputSource: InputSource? {
         return InputSource.resolvePersistedIdentifier(preferences.codexTerminalInputSourceId)
+    }
+
+    var cursorTerminalInputSource: InputSource? {
+        return InputSource.resolvePersistedIdentifier(preferences.cursorTerminalInputSourceId)
+    }
+
+    func terminalInputSource(for kind: AppTerminalKind) -> InputSource? {
+        switch kind {
+        case .codex:
+            return codexTerminalInputSource
+        case .cursor:
+            return cursorTerminalInputSource
+        }
     }
 }
 
